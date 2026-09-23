@@ -1,0 +1,640 @@
+{% extends "base.html" %} {% load static %} 
+{% block title %}Калькулятор — FinBalance{% endblock title %} 
+{% block content %}
+<script src="{% static 'calculator/js/calculator.js' %}" defer></script>
+
+<section class="calculator">
+  <nav class="breadcrumbs">
+    <ol class="breadcrumbs__list">
+      <li class="breadcrumbs__item">
+        <a href="{% url 'home' %}" class="breadcrumbs__link">Главная</a>
+      </li>
+      <li class="breadcrumbs__item" aria-current="page">Калькулятор</li>
+    </ol>
+  </nav>
+
+  <div class="calculator__header">
+    <div class="calculator__heading">
+      <h1 class="calculator__title">Калькулятор капитала и накоплений</h1>
+      <p class="calculator__description">
+        Введите исходные данные доходов, расходов и доходности для моделирования
+        вашего капитала.
+      </p>
+    </div>
+
+    <div class="calculator__model">
+      <label for="model" class="calculator__model-label">
+        <img
+          src="{% static 'images/benefit.svg' %}"
+          alt=""
+          class="calculator__model-icon"
+        />
+        Модель начисления:
+        <select
+          name="model"
+          id="model"
+          class="calculator__model-select"
+          data-input="calculation-model"
+        >
+          <option value="monthly" selected>
+            Сложные проценты - Ежемесячно
+          </option>
+          <option value="quarterly">Сложные проценты - Ежеквартально</option>
+          <option value="annual">Сложные проценты - Ежегодно</option>
+          <option value="simple">Простые проценты</option>
+        </select>
+      </label>
+    </div>
+  </div>
+
+  <div class="calculator__main">
+    <form class="calculator__form" id="calculator-form">
+      <fieldset
+        class="calculator__fieldset"
+        aria-labelledby="starting-params-title"
+      >
+        <h3 class="calculator__fieldset-title" id="starting-params-title">
+          <img
+            src="{% static 'images/wallet.svg' %}"
+            alt=""
+            class="calculator__fieldset-icon"
+          />
+          Начальные параметры
+        </h3>
+
+        <div class="calculator__field">
+          <label for="starting" class="calculator__label">
+            Начальный капитал
+          </label>
+          <div class="calculator__input-wrapper">
+            <input
+              type="text"
+              inputmode="decimal"
+              name="starting"
+              id="starting"
+              class="calculator__input"
+              min="0"
+              step="1000"
+              data-input="starting-capital"
+              placeholder="10000"
+            /><span class="calculator__input-suffix">₽</span>
+          </div>
+        </div>
+
+        <div class="calculator__field">
+          <label for="income" class="calculator__label">
+            Ежемесячный доход
+          </label>
+          <div class="calculator__input-wrapper">
+            <input
+              type="text"
+              inputmode="decimal"
+              name="income"
+              id="income"
+              class="calculator__input"
+              min="0"
+              step="1000"
+              data-input="income"
+              placeholder="10000"
+            /><span class="calculator__input-suffix">₽</span>
+          </div>
+        </div>
+
+        <div class="calculator__field">
+          <label for="percentage" class="calculator__label">
+            Ожидаемая годовая доходность
+          </label>
+          <div class="calculator__input-wrapper">
+            <input
+              type="text"
+              inputmode="decimal"
+              name="percentage"
+              id="percentage"
+              class="calculator__input"
+              min="0"
+              step="0.1"
+              data-input="annual-rate"
+              placeholder="12"
+            /><span class="calculator__input-suffix">₽</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset
+        class="calculator__fieldset"
+        aria-labelledby="fixed_expenses-title"
+      >
+        <h3 class="calculator__fieldset-title" id="fixed_expenses-title">
+          <img
+            src="{% static 'images/check.svg' %}"
+            alt=""
+            class="calculator__fieldset-icon"
+          />
+          Фиксированные расходы
+        </h3>
+
+        <div class="calculator__expenses-grid">
+          <div class="calculator__field">
+            <label for="housing" class="calculator__label"
+              >Жилье (аренда / ЖКХ)</label
+            >
+            <div class="calculator__input-wrapper">
+              <input
+                type="text"
+                inputmode="decimal"
+                name="housing"
+                id="housing"
+                class="calculator__input"
+                data-input="housing-expenses"
+                placeholder="10000"
+              /><span class="calculator__input-suffix">₽</span>
+            </div>
+          </div>
+
+          <div class="calculator__field">
+            <label for="groceries" class="calculator__label"
+              >Продукты питания</label
+            >
+            <div class="calculator__input-wrapper">
+              <input
+                type="text"
+                inputmode="decimal"
+                name="groceries"
+                id="groceries"
+                class="calculator__input"
+                data-input="groceries-expenses"
+                placeholder="10000"
+              /><span class="calculator__input-suffix">₽</span>
+            </div>
+          </div>
+
+          <div class="calculator__field">
+            <label for="transport" class="calculator__label">Транспорт</label>
+            <div class="calculator__input-wrapper">
+              <input
+                type="text"
+                inputmode="decimal"
+                name="transport"
+                id="transport"
+                class="calculator__input"
+                data-input="transport-expenses"
+                placeholder="10000"
+              /><span class="calculator__input-suffix">₽</span>
+            </div>
+          </div>
+
+          <div class="calculator__field">
+            <label for="other" class="calculator__label">Прочие расходы</label>
+            <div class="calculator__input-wrapper">
+              <input
+                type="text"
+                inputmode="decimal"
+                name="other"
+                id="other"
+                class="calculator__input"
+                data-input="other-expenses"
+                placeholder="10000"
+              /><span class="calculator__input-suffix">₽</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="progress-bar">
+        <div class="prgoress-bar__legend--calculator">
+          <h3>Доля сбережений от дохода</h3>
+          <div data-result="savings-rate"><span>0%</span></div>
+        </div>
+        <div class="progress-bar__track">
+          <div class="progress-bar__segment"></div>
+        </div>
+      </div>
+
+      <div class="calculator__actions">
+        <button
+          class="calculator__button calculator__button--primary"
+          type="submit"
+        >
+          <img
+            src="{% static 'images/calculator_white.svg' %}"
+            alt=""
+            class="calculator__button-icon"
+          />
+          Рассчитать прогноз
+        </button>
+        <button
+          class="calculator__button calculator__button--ghost"
+          type="reset"
+        >
+          <img
+            src="{% static 'images/reset.svg' %}"
+            alt=""
+            class="calculator__button-icon"
+          />
+          Сбросить
+        </button>
+      </div>
+    </form>
+
+    <div class="calculator__results">
+      <div class="calculator__summary-grid">
+        <div class="summary-card">
+          <div class="summary-card__header">
+            <h3 class="summary-card__title">Суммарные расходы в месяц</h3>
+            <img
+              src="{% static 'images/banknotes.svg' %}"
+              alt=""
+              class="summary-card__icon"
+            />
+          </div>
+          <div
+            class="summary-card__value"
+            data-result="expenses-monthly"
+            data-value="0"
+          >
+            0 ₽
+          </div>
+          <p class="summary-card__description">Обязательные статьи бюджета</p>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-card__header">
+            <h3 class="summary-card__title">Свободный остаток в месяц</h3>
+            <img
+              src="{% static 'images/piggy_bank.svg' %}"
+              alt=""
+              class="summary-card__icon"
+            />
+          </div>
+          <div class="summary-card__value-row">
+            <span
+              class="summary-card__value"
+              data-result="remainder-monthly"
+              data-value="0"
+              >0 ₽</span
+            >
+            <span class="summary-card__badge"
+              ><span data-result="remainder-monthly-rate" data-value="0"
+                >33.3</span
+              >% от дохода
+            </span>
+          </div>
+          <p class="summary-card__description">
+            Доступно для ежемесячного пополнения
+          </p>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-card__header">
+            <h3 class="summary-card__title">Прогноз капитала через 5 лет</h3>
+            <img
+              src="{% static 'images/rise.svg' %}"
+              alt=""
+              class="summary-card__icon"
+            />
+          </div>
+          <div
+            class="summary-card__value summary-card__value--green"
+            data-result="capital-5-sum"
+            data-value="0"
+          >
+            0 ₽
+          </div>
+          <div class="summary-card__meta">
+            <span
+              >Взнос:
+              <strong data-result="capital-5-contribution" data-value="0"
+                >0 ₽</strong
+              ></span
+            >
+            <span class="separator"></span>
+            <span
+              >Проценты:
+              <strong data-result="capital-5-rate" data-value="0"
+                >0 ₽</strong
+              ></span
+            >
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-card__header">
+            <h3 class="summary-card__title">Прогноз капитала через 10 лет</h3>
+            <img
+              src="{% static 'images/medal.svg' %}"
+              alt=""
+              class="summary-card__icon"
+            />
+          </div>
+          <div
+            class="summary-card__value summary-card__value--green"
+            data-result="capital-10-sum"
+            data-value="0"
+          >
+            0 ₽
+          </div>
+          <div class="summary-card__meta">
+            <span
+              >Взнос:
+              <strong data-result="capital-10-contribution" data-value="0"
+                >0 ₽</strong
+              ></span
+            >
+            <span class="summary-card__meta-separator">•</span>
+            <span
+              >Проценты:
+              <strong data-result="capital-10-rate" data-value="0"
+                >0 ₽</strong
+              ></span
+            >
+          </div>
+        </div>
+      </div>
+
+      <section class="growth-table">
+        <div class="growth-table__header">
+          <div class="growth-table__title-group">
+            <h2 class="growth-table__title">Динамика роста капитала</h2>
+            <p class="growth-table__description">
+              Траектория накоплений с учетом капитализации процентов
+            </p>
+          </div>
+
+          <div class="growth-table__rate-badge">
+            <span class="separator separator--primary"></span>
+            <span class="growth-table__rate-text">
+              <span data-result="growth-percent" data-value="0">12</span>% год.
+              / ежем. капитализация
+            </span>
+          </div>
+        </div>
+
+        <table class="growth-table__table">
+          <thead>
+            <tr class="growth-table__row growth-table__row--header">
+              <th
+                class="growth-table__cell growth-table__cell--header growth-table__cell--year"
+              >
+                Год
+              </th>
+              <th
+                class="growth-table__cell growth-table__cell--header growth-table__cell--contributed"
+              >
+                Вложено средств
+              </th>
+              <th
+                class="growth-table__cell growth-table__cell--header growth-table__cell--income"
+              >
+                Начисленный доход
+              </th>
+              <th
+                class="growth-table__cell growth-table__cell--header growth-table__cell--total"
+              >
+                Итоговый капитал
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="growth-table__row" data-year="1">
+              <td class="growth-table__cell growth-table__cell--year">1 год</td>
+              <td
+                class="growth-table__cell growth-table__cell--contributed"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--income"
+                data-value="0"
+              >
+                +0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--total"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+            </tr>
+            <tr class="growth-table__row" data-year="2">
+              <td class="growth-table__cell growth-table__cell--year">
+                2 года
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--contributed"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--income"
+                data-value="0"
+              >
+                +0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--total"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+            </tr>
+            <tr class="growth-table__row" data-year="3">
+              <td class="growth-table__cell growth-table__cell--year">
+                3 года
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--contributed"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--income"
+                data-value="0"
+              >
+                +0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--total"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+            </tr>
+            <tr class="growth-table__row" data-year="4">
+              <td class="growth-table__cell growth-table__cell--year">
+                4 года
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--contributed"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--income"
+                data-value="0"
+              >
+                +0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--total"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+            </tr>
+            <tr
+              class="growth-table__row growth-table__row--highlighted"
+              data-year="5"
+            >
+              <td class="growth-table__cell growth-table__cell--year">5 лет</td>
+              <td
+                class="growth-table__cell growth-table__cell--contributed"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--income"
+                data-value="0"
+              >
+                +0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--total"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+            </tr>
+            <tr class="growth-table__row" data-year="7">
+              <td class="growth-table__cell growth-table__cell--year">7 лет</td>
+              <td
+                class="growth-table__cell growth-table__cell--contributed"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--income"
+                data-value="0"
+              >
+                +0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--total"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+            </tr>
+            <tr
+              class="growth-table__row growth-table__row--highlighted"
+              data-year="10"
+            >
+              <td class="growth-table__cell growth-table__cell--year">
+                10 лет
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--contributed"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--income"
+                data-value="0"
+              >
+                +0 ₽
+              </td>
+              <td
+                class="growth-table__cell growth-table__cell--total"
+                data-value="0"
+              >
+                0 ₽
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="calculator__formula-card">
+        <div class="calculator__formula-symbol">Σ</div>
+        <div class="calculator__formula-content">
+          <h4 class="calculator__formula-title">
+            Математическая модель расчёта
+          </h4>
+          <p class="calculator__formula-text">
+            Моделирование выполнено с применением формулы аннуитета и сложных
+            процентов с ежемесячным реинвестированием дохода:
+            <math display="block">
+              <mrow>
+                <mi>S</mi>
+                <mo>=</mo>
+                <mrow>
+                  <mi>P</mi>
+                  <mo>·</mo>
+                  <msup>
+                    <mrow>
+                      <mo>(</mo>
+                      <mn>1</mn>
+                      <mo>+</mo>
+                      <mfrac>
+                        <mi>r</mi>
+                        <mn>12</mn>
+                      </mfrac>
+                      <mo>)</mo>
+                    </mrow>
+                    <mi>n</mi>
+                  </msup>
+                  <mo>+</mo>
+                  <mi>PMT</mi>
+                  <mo>·</mo>
+                  <mrow>
+                    <mo>[</mo>
+                    <mrow>
+                      <mfrac>
+                        <mrow>
+                          <msup>
+                            <mrow>
+                              <mo>(</mo>
+                              <mrow>
+                                <mn>1</mn>
+                                <mo>+</mo>
+                                <mfrac>
+                                  <mi>r</mi>
+                                  <mn>12</mn>
+                                </mfrac>
+                              </mrow>
+                              <mo>)</mo>
+                            </mrow>
+                            <mi>n</mi>
+                          </msup>
+                          <mo>-</mo>
+                          <mn>1</mn>
+                        </mrow>
+                        <mrow>
+                          <mfrac>
+                            <mi>r</mi>
+                            <mn>12</mn>
+                          </mfrac>
+                        </mrow>
+                      </mfrac>
+                    </mrow>
+                    <mo>]</mo>
+                  </mrow>
+                </mrow>
+              </mrow>
+            </math>
+            где <strong>P</strong> — начальный капитал, <strong>PMT</strong> —
+            свободный ежемесячный остаток, <strong>r</strong> — годовая ставка,
+            <strong>n</strong> — количество расчетных месяцев.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

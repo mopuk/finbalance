@@ -1,0 +1,253 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %}
+База знаний - FinBalance 
+{% endblock title %}
+{% block content %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchForm = document.querySelector("#search-form");
+    const queryInput = document.querySelector("#query");
+    const categorySelect = document.querySelector("#category-select");
+    const query = urlParams.get("query");
+    const categorySlug = urlParams.get("category");
+
+    if (categorySlug) {
+      const categoryOption = Array.from(categorySelect.options).find(
+        (option) => option.dataset.slug === categorySlug,
+      );
+      if (categoryOption) {
+        categoryOption.selected = true;
+      }
+    }
+    if (query) {
+      queryInput.value = query;
+    }
+    function applyFilters() {
+      const query = queryInput.value.trim();
+      const category = categorySelect.selectedOptions[0]?.dataset.slug;
+      const params = new URLSearchParams();
+      if (query) {
+        params.set("query", query);
+      }
+      console.log(category);
+      if (category && category !== "any") {
+        params.set("category", category);
+      }
+      console.log(query, category);
+      window.location.href = `/knowledge/?${params.toString()}#articles`;
+    }
+    
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      applyFilters();
+    });
+
+    searchForm.addEventListener("reset", (e) => {
+      e.preventDefault();
+       window.location.href = `/knowledge/#articles`;
+    })
+    categorySelect.addEventListener("change", () => {
+      applyFilters();
+    });
+  });
+</script>
+<section class="knowledge">
+  <section class="knowledge__header">
+    <nav class="breadcrumbs">
+      <ol class="breadcrumbs__list">
+        <li class="breadcrumbs__item">
+          <a href="{% url 'home' %}" class="breadcrumbs__link"> Главная </a>
+        </li>
+        <li class="breadcrumbs__item" aria-current="page">База знаний</li>
+      </ol>
+    </nav>
+    <div class="knowledge__grid">
+      <div>
+        <h4 class="knowledge__subtitle">
+          <span class="separator"></span>
+          Экспертные материалы
+        </h4>
+        <h1 class="knowledge__title">База знаний</h1>
+        <h2 class="knowledge__description">
+          Статьи, практические руководства и правила разумного управления
+          бюджетом и инвестициями.
+        </h2>
+      </div>
+      <div class="knowledge__stats">
+        <h3 class="knowledge_stat--label">Опубликовано</h3>
+        <p class="knowledge_stat--value">{{articles.}} статьи</p>
+      </div>
+    </div>
+  </section>
+  {% if featured %}
+  <section class="featured">
+    <h2 class="featured__title--muted">Главный материал</h2>
+    <div class="featured__main">
+      <div class="featured__image">
+        <img src="{% static 'images/no_image.svg' %}" alt="Нет изображения" />
+        Нет изображения
+      </div>
+      <div class="featured__content">
+        <h3 class="featured__meta">
+          <span class="featured__recommendation">Рекомендуем</span>
+          <time class="featured__date">
+            {{ featured.created_at|date:"j F Y" }}
+          </time>
+          <span class="separator"></span>
+          <span class="featured__readtime">
+            <img src="{% static 'images/clock.svg' %}" alt="" />
+            {{ featured.readtime }} мин. чтения
+          </span>
+        </h3>
+        <h2 class="featured__title">{{featured.title}}</h2>
+        <p class="featured__description">{{featured.preview_text}}</p>
+        <a
+          class="featured__link"
+          href="{% url 'knowledge:article' featured.slug %}"
+        >
+          Читать полностью
+          <img
+            src="{% static 'images/right_arrow_white.svg' %}"
+            alt="Стрелка вправо"
+            class="arrow"
+          />
+        </a>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+  <section class="articles" id="articles">
+    <h2 class="articles__title">Библиотека статей</h2>
+    <h3 class="articles__caption">
+      Структурированные финансовые руководства для устойчивого роста
+    </h3>
+    <form class="search-form" id="search-form">
+      <input
+        type="text"
+        name="query"
+        id="query"
+        placeholder="Поиск по названию или категории..."
+        class="search-form__input"
+      />
+      <img src="{% static 'images/search.svg' %}" alt="Поиск" />
+      {% if categories %}
+      <select class="search-form__filters" id="category-select">
+        <option value="any" class="search-form__filter">Любая категория</option>
+        {% for category in categories %}
+        <option
+          value="{{category.title}}"
+          class="search-form__filter"
+          data-slug="{{category.slug}}"
+        >
+          {{ category.title }}
+        </option>
+        {% endfor %}
+      </select>
+      {% endif %}
+      <button type="submit" class="search-form__button button--primary">Применить фильтры</button>
+      <button type="reset" class="search-form__button button--ghost">Убрать фильтры</button>
+    </form>
+    <ul class="articles__list">
+      {% for article in page_obj %}
+      <li class="articles__item article">
+        <div class="article__image">
+          <img src="{% static 'images/no_image.svg' %}" alt="Нет изображения" />
+          Нет изображения
+        </div>
+        <div class="article__meta">
+          <h3 class="article__category">
+            [ {{ article.category.title|upper }} ]
+          </h3>
+          <span class="article__readtime"
+            >{{ article.readtime|default:"1" }} мин. чтения</span
+          >
+        </div>
+        <h3 class="article__title">{{ article.title }}</h3>
+        <p class="article__preview">{{ article.preview_text }}</p>
+        <a
+          href="{% url 'knowledge:article' article.slug %}"
+          class="article__link"
+        >
+          Читать статью
+          <img
+            src="{% static 'images/right_arrow.svg' %}"
+            alt="Стрелка вправо"
+            class="arrow"
+          />
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <nav class="pagination" aria-label="Пагинация">
+      {% if page_obj.has_previous %}
+      <a
+        href="{% querystring page=page_obj.previous_page_number %}#articles"
+        class="pagination__arrow"
+        aria-label="Предыдущая страница"
+      >
+        <img
+          src="{% static 'images/pagination_arrow_left.svg' %}"
+          alt="Стрелка пагинации назад"
+        />
+      </a>
+      {% else %}
+      <span
+        class="pagination__arrow pagination__arrow--disabled"
+        aria-hidden="true"
+      >
+        <img
+          src="{% static 'images/pagination_arrow_left.svg' %}"
+          alt="Стрелка пагинации назад"
+        />
+      </span>
+      {% endif %} {% if page_obj.number > 1 %}
+      <a
+        href="{% querystring page=page_obj.number|add:'-1' %}#articles"
+        class="pagination__page"
+      >
+        {{ page_obj.number|add:'-1' }}
+      </a>
+      {% endif %}
+
+      <span
+        class="pagination__page pagination__page--current"
+        aria-current="page"
+      >
+        {{ page_obj.number }}
+      </span>
+
+      {% if page_obj.number < page_obj.paginator.num_pages %}
+      <a
+        href="{% querystring page=page_obj.number|add:'1' %}#articles"
+        class="pagination__page"
+      >
+        {{ page_obj.number|add:'1' }}
+      </a>
+      {% endif %} {% if page_obj.has_next %}
+      <a
+        href="{% querystring page=page_obj.next_page_number %}#articles"
+        class="pagination__arrow"
+        aria-label="Следующая страница"
+      >
+        <img
+          src="{% static 'images/pagination_arrow_right.svg' %}"
+          alt="Стрелка пагинации вперед"
+        />
+      </a>
+      {% else %}
+      <span
+        class="pagination__arrow pagination__arrow--disabled"
+        aria-hidden="true"
+      >
+        <img
+          src="{% static 'images/pagination_arrow_right.svg' %}"
+          alt="Стрелка пагинации вперед"
+        />
+      </span>
+      {% endif %}
+    </nav>
+  </section>
+</section>
+{% endblock content %}

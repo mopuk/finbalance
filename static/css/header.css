@@ -1,0 +1,45 @@
+.header {
+  height: 4em;
+  padding: 0 10em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header__left {
+  display: flex;
+  gap: 4em;
+  list-style: none;
+  align-items: center;
+}
+
+.header__greeting {
+  font-family: var(--font-family-body);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.header__username {
+  color: var(--color-accent);
+
+  :hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
+}
+
+.header__button {
+  font-family: var(--font-size-link);
+  color: var(--color-inactive-link);
+  background-color: #ffffff;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+    color: var(--color-link);
+  }
+}

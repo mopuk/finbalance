@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap");
+
+@import "./globals.css";
+@import "./calculator.css";
+@import "./footer.css";
+@import "./header.css";
+@import "./index.css";
+@import "./knowledge.css";
+
+body {
+  font-family: var(--font-family-body);
+  color: var(--color-primary);
+  padding: 0;
+  margin: 0;
+}
+
+.nav__list {
+  list-style: none;
+  display: flex;
+  gap: 2.5em;
+  align-items: center;
+  font-size: var(--font-size-link);
+}
+
+.nav__item--active {
+  font-weight: bold;
+}
+.nav__link {
+  font-family: var(--font-family-body);
+  color: var(--color-link);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: var(--font-size-body-lg);
+}
+
+.nav__link--active {
+  color: var(--color-link-active);
+  text-decoration: underline;
+  font-size: var(--font-size-body-lg);
+}
+
+.logo {
+  width: 10em;
+  height: 4em;
+}
+
+.arrow {
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumbs__list {
+  list-style: none;
+  display: flex;
+  gap: 0.5em;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumbs__item {
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+.breadcrumbs__link,
+.breadcrumbs__link:visited,
+.breadcrumbs__link:active {
+  font-size: var(--font-size-small);
+  font-family: var(--font-family-body);
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.breadcrumbs__item + .breadcrumbs__item::before {
+  content: "/";
+  margin: 0 0.5em 0 0;
+  color: var(--color-text-muted);
+}
+
+.breadcrumbs__item[aria-current="page"] {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.separator {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  background-color: var(--color-text-muted);
+  border-radius: 100%;
+}
+
+.separator--primary {
+  background-color: var(--color-accent);
+}

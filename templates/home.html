@@ -1,0 +1,398 @@
+{% extends "base.html" %} {% load static %} {% block title %} Главная -
+FinBalance {% endblock title %} {% block content %}
+<div class="home">
+  <section class="hero">
+    <div class="hero__heading">
+      <div class="hero__left">
+        <h4 class="hero__subtitle">
+          <span class="separator"></span>
+          ПРОСТОЙ ФИНАНСОВЫЙ ИНСТРУМЕНТ
+        </h4>
+        <h1 class="hero__title">
+          Управляйте личными финансами и планируйте накопления
+        </h1>
+        <p class="hero__content">
+          Сервис для точного учета бюджета, расчета сложных процентов и изучения
+          базы знаний по финансовой грамотности.
+        </p>
+
+        <div class="hero__actions">
+          <a href="{% url 'calculator' %}" class="hero__button button--primary">
+            Открыть калькулятор
+            <img
+              src="{% static 'images/right_arrow_white.svg' %}"
+              alt="Стрелка вправо"
+              class="arrow"
+            />
+          </a>
+          <a href="{% url 'knowledge:index' %}" class="hero__button button--ghost">
+            Читать статьи
+            <img
+              src="{% static 'images/book.svg' %}"
+              alt="Книга"
+              class="arrow"
+            />
+          </a>
+        </div>
+        <span class="hero__formula">
+          <img src="{% static 'images/formula.svg' %}" alt="Формула" />
+          Формулы стандарта МСФО / ЦБ РФ
+        </span>
+      </div>
+
+      <div class="hero__right">
+        <div class="quick-calculator">
+          <div class="quick-calculator__heading">
+            <div class="quick-calculator__heading-left">
+              <h4 class="quick-calculator__tag">ЭКСПРЕСС-МОДЕЛИРОВАНИЕ</h4>
+              <h4 class="quick-calculator__subtitle">Прогнозируемый капитал</h4>
+            </div>
+            <div class="quick-calculator__heading-right">
+              <span class="quick-calculator__horizon">Горизон: 10 лет</span>
+            </div>
+          </div>
+
+          <h1 class="quick-calculator__summ">12 450 000</h1>
+
+          <div class="progress-bar">
+            <div class="progress-bar__track">
+              <div class="progress-bar__segment"></div>
+            </div>
+            <div class="progress-bar__legend">
+              <div class="progress-bar__deposit">
+                Взносы: <span class="progress-bar__percentage">25%</span>
+              </div>
+              <div class="progress-bar__income">
+                Доход: <span class="progress-bar__percentage">75%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="metrics">
+            <div class="metrics__deposit">
+              <h4 class="metrics__title">ВЛОЖЕННЫЕ СРЕДСТВА</h4>
+
+              <h4 class="metrics__money">3 050 000₽</h4>
+              <h4 class="metrics__description">
+                50 000 ₽ старт + 25 000 ₽/мес
+              </h4>
+            </div>
+            <div class="metrics__income">
+              <div class="metrics__income-header">
+                <h4 class="metrics__title">НАЧИСЛЕННЫЙ ДОХОД</h4>
+                <span class="metrics__percentage percentage--green">+308%</span>
+              </div>
+              <h4 class="metrics__money money--green">+9 400 000₽</h4>
+              <h4 class="metrics__description">Прирост сложным процентом</h4>
+            </div>
+          </div>
+
+          <div class="quick-calculator__info">
+            <img src="{% static 'images/info.svg' %}" alt="Информация" />
+            Расчет при средней ставке 12% годовых с ежемесячной капитализацией
+            процентов.
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="stats">
+      <div class="stats__card card">
+        <h4 class="card__title">СТАВКА ИНФЛЯЦИИ (БАЗОВАЯ)</h4>
+        <div class="card__stat">
+          <span class="card__stat-left">7.5%</span>
+          <span class="card__stat-right">Ориентир ЦБ</span>
+        </div>
+        <div class="card__description">
+          Минимальный порог доходности для сбережений
+        </div>
+      </div>
+
+      <div class="stats__card card">
+        <h4 class="card__title">СРЕДНЯЯ ДОХОДНОСТЬ ИНДЕКСА</h4>
+        <div class="card__stat">
+          <span class="card__stat-left stat--green">+14.2%</span>
+          <span class="card__stat-right stat--green">Ретроспектива</span>
+        </div>
+        <div class="card__description">
+          Индекс Мосбиржи полной доходности за 15 лет
+        </div>
+      </div>
+
+      <div class="stats__card card">
+        <h4 class="card__title">РЕКОМЕНДУЕМАЯ ПОДУШКА</h4>
+        <div class="card__stat">
+          <span class="card__stat-left">3–6 мес.</span>
+          <span class="card__stat-right">Ликвидность</span>
+        </div>
+        <div class="card__description">
+          Неприкосновенный резерв в базовых инструментах
+        </div>
+      </div>
+
+      <div class="stats__card card">
+        <h4 class="card__title">ГОРИЗОНТ ПЛАНИРОВАНИЯ</h4>
+        <div class="card__stat">
+          <span class="card__stat-left">10+ лет</span>
+          <span class="card__stat-right">Сложный процент</span>
+        </div>
+        <div class="card__description">
+          Оптимальный срок для раскрытия инвестиций
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="modules">
+    <div class="modules__heading">
+      <div class="modules__heading-left">
+        <h4 class="modules__subtitle">ФУНКЦИОНАЛЬНЫЕ МОДУЛИ</h4>
+        <h2 class="modules__title">Архитектура финансового контроля</h2>
+      </div>
+      <div class="modules__heading-right">
+        Набор взаимосвязанных инструментов для моделирования индивидуального
+        капитала без перегрузки данными.
+      </div>
+    </div>
+
+    <ul class="modules__list">
+      <li class="modules__item">
+        <img
+          src="{% static 'images/calculator.svg' %}"
+          alt="Калькулятор"
+          class="modules__icon"
+        />
+        <h3 class="modules__item-title">Интерактивный калькулятор</h3>
+        <p class="modules__description">
+          Расчет свободного остатка от зарплаты, инвестиционного капитала и
+          прогнозирование прогрессии по годам с учетом досрочных пополнений и
+          капитализации.
+        </p>
+        <a href="{% url 'calculator' %}" class="modules__link">
+          Перейти в расчетный блок
+          <img
+            src="{% static 'images/right_arrow.svg' %}"
+            alt="Стрелка вправо"
+            class="arrow"
+          />
+        </a>
+      </li>
+      <li class="modules__item">
+        <img
+          src="{% static 'images/article.svg' %}"
+          alt="Статья"
+          class="modules__icon"
+        />
+        <h3 class="modules__item-title">База знаний</h3>
+        <p class="modules__description">
+          Практические руководства по формированию финансовой подушки, сложным
+          процентам, оптимизации расходов и налоговым вычетам ИИС.
+        </p>
+        <a href="{% url 'knowledge:index' %}" class="modules__link">
+          Изучить статьи и гайды
+          <img
+            src="{% static 'images/right_arrow.svg' %}"
+            alt="Стрелка вправо"
+            class="arrow"
+          />
+        </a>
+      </li>
+      <li class="modules__item">
+        <img
+          src="{% static 'images/chart.svg' %}"
+          alt="График"
+          class="modules__icon"
+        />
+        <h3 class="modules__item-title">Аналитика и прогнозы</h3>
+        <p class="modules__description">
+          Наглядная сводка структуры расходов, калибровка личных лимитов и
+          оценка устойчивости бюджета при изменении внешнеэкономических
+          параметров.
+        </p>
+        <a href="{% url 'home' %}" class="modules__link">
+          Открыть аналитическую панель
+          <img
+            src="{% static 'images/right_arrow.svg' %}"
+            alt="Стрелка вправо"
+            class="arrow"
+          />
+        </a>
+      </li>
+    </ul>
+  </section>
+  <section class="potential">
+    <div class="potential__grid">
+      <div class="potential__left">
+        <h4 class="potential__subtitle">Быстрый расчет на месте</h4>
+        <h2 class="potential__title">
+          Оцените потенциал вашего свободного остатка
+        </h2>
+
+        <p>
+          Введите ваш чистый доход и основные расходы, чтобы увидеть доступный
+          инвестиционный поток и его проекцию через 5 лет при консервативной
+          ставке.
+        </p>
+        <div class="quick-calculator">
+          <div class="quick-calculator__heading">
+            <div class="quick-calculator__heading-left">
+              <h4 class="quick-calculator__tag">ЭКСПРЕСС-МОДЕЛИРОВАНИЕ</h4>
+              <h4 class="quick-calculator__subtitle">Прогнозируемый капитал</h4>
+            </div>
+            <div class="quick-calculator__heading-right">
+              <span class="quick-calculator__horizon">Горизон: 10 лет</span>
+            </div>
+          </div>
+
+          <h1 class="quick-calculator__summ">12 450 000</h1>
+
+          <div class="progress-bar">
+            <div class="progress-bar__track">
+              <div
+                class="progress-bar__segment progress-bar__segment--deposit"
+              ></div>
+              <div
+                class="progress-bar__segment progress-bar__segment--income"
+              ></div>
+            </div>
+            <div class="progress-bar__legend">
+              <div class="progress-bar__deposit">
+                Взносы: <span class="progress-bar__percentage">25%</span>
+              </div>
+              <div class="progress-bar__income">
+                Доход: <span class="progress-bar__percentage">75%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="metrics">
+            <div class="metrics__deposit">
+              <h4 class="metrics__title">ВЛОЖЕННЫЕ СРЕДСТВА</h4>
+
+              <h4 class="metrics__money">3 050 000₽</h4>
+              <h4 class="metrics__description">
+                50 000 ₽ старт + 25 000 ₽/мес
+              </h4>
+            </div>
+            <div class="metrics__income">
+              <div class="metrics__income-header">
+                <h4 class="metrics__title">НАЧИСЛЕННЫЙ ДОХОД</h4>
+                <span class="metrics__percentage percentage--green">+308%</span>
+              </div>
+              <h4 class="metrics__money money--green">+9 400 000₽</h4>
+              <h4 class="metrics__description">Прирост сложным процентом</h4>
+            </div>
+          </div>
+
+          <div class="quick-calculator__info">
+            <img src="{% static 'images/info.svg' %}" alt="Информация" />
+            Расчет при средней ставке 12% годовых с ежемесячной капитализацией
+            процентов.
+          </div>
+        </div>
+      </div>
+      <div class="potential__right">
+        <form action="" class="potential__form">
+          <label for="potential_income" class="potential__label">
+            Ежемесячный доход (₽)
+
+            <span class="potential__input">
+              <input
+                type="text"
+                name="potential_income"
+                id="potential_income"
+                class="potential__income"
+                placeholder="120000"
+              />
+              <span class="potential__currency">RUB</span>
+            </span>
+          </label>
+
+          <label for="potential_spendings" class="potential__label">
+            Обязательные траты (₽)
+            <span class="potential__input">
+              <input
+                type="text"
+                name="potential_spendings"
+                id="potential_spendings"
+                class="potential__spendings"
+                placeholder="75000"
+              />
+              <span class="potential__currency">RUB</span>
+            </span>
+          </label>
+        </form>
+        <div class="potential__results">
+          <div class="potential__result">
+            <h4 class="potential__label">Свободный остаток в месяц</h4>
+            <h2 class="potential__value">45000 ₽ 
+              <span class="potential__percentage">37.5% дохода</span>
+            </h2>
+          </div>
+
+          <div class="potential__result">
+            <h4 class="potential__label">
+              Капитал через 5 лет (при 12% годовых)
+            </h4>
+            <h2 class="potential__value value--primary">3 675 135 ₽</h2>
+          </div>
+        </div>
+        <div class="potential__note">
+          <p>* С учетом ежемесячной реинвестиции полного остатка</p>
+          <p>Формула: FV с аннуитетом</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% if articles %}
+  <section class="articles">
+    <div class="articles__heading">
+      <div class="articles__heading-left">
+        <h4 class="articles__subtitle">
+          БАЗА ЗНАНИЙ <span class="separator"></span> Методические
+          материалы
+        </h4>
+        <h2 class="articles__title">Свежие публикации экспертов</h2>
+      </div>
+      <div class="articles__heading-right">
+        <a href="{% url 'knowledge:index' %}" class="articles__link">
+          Все статьи базы знаний
+          <img
+            src="{% static 'images/right_arrow.svg' %}"
+            alt="Стрелка вправо"
+            class="arrow"
+          />
+        </a>
+      </div>
+    </div>
+    <ul class="articles__list">
+      {% for article in articles %}
+      <li class="articles__item article">
+        <div class="article__image">
+          <img src="{% static 'images/no_image.svg' %}" alt="Нет изображения" />
+          Нет изображения
+        </div>
+        <div class="article__meta">
+          <h3 class="article__category">[ {{ article.category.title|upper }} ]</h3>
+          <span class="article__readtime"
+            >{{ article.readtime|default:"1" }} мин. чтения</span
+          >
+        </div>
+        <h3 class="article__title">{{ article.title }}</h3>
+        <p class="article__preview">{{ article.preview_text }}</p>
+        <a
+          href="{% url 'knowledge:article' article.slug %}"
+          class="article__link"
+        >
+          Читать статью
+          <img
+            src="{% static 'images/right_arrow.svg' %}"
+            alt="Стрелка вправо"
+            class="arrow"
+          />
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+</div>
+{% endblock content %}

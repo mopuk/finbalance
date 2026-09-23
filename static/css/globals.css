@@ -1,0 +1,56 @@
+:root {
+  --color-primary: #0f172a;
+  --color-secondary: #1e293b;
+  --color-accent: #009842;
+  --color-background: #eef4fc;
+  --color-surface-card: #f8fafc;
+  --color-surface-white: #ffffff;
+  --color-border: #dde3eb;
+  --color-text: #0f172a;
+  --color-text-muted: #45464d;
+  --color-link: #45464d;
+  --color-active-link: #000000;
+
+  --font-family-heading: "Plus Jakarta Sans", sans-serif;
+  --font-family-body: "Inter", sans-serif;
+
+  --font-size-h1: 2.5rem;
+  --font-size-h2: 2rem;
+  --font-size-h3: 1.25rem;
+  --font-size-subtitle: 0.8rem;
+  --font-size-body: 1rem;
+  --font-size-link: 1.25rem;
+}
+
+:root {
+  --color-primary: #000000;
+  --color-secondary: #545f73;
+  --color-accent: #009842;
+  --color-accent-light: #ecfdf5;
+  --color-badge-bg: #d5e0f8;
+
+  --color-background: #eef4fc;
+
+  --color-border: #dde3eb;
+  --color-outline: #76777d;
+
+  --color-text: #161c22;
+  --color-text-dark: #0f172a;
+  --color-text-muted: #45464d;
+  --color-link: #45464d;
+  --color-link-active: #000000;
+
+  --font-family-heading: "Tinos", sans-serif;
+  --font-family-body: "Inter", sans-serif;
+
+  --font-size-display: 40px;
+  --font-size-h1: 32px;
+  --font-size-h2: 28px;
+  --font-size-metric: 24px;
+  --font-size-h3: 18px;
+  --font-size-body-lg: 16px;
+  --font-size-body: 14px;
+  --font-size-caption: 13px;
+  --font-size-small: 12px;
+  --font-size-badge: 11px;
+}
