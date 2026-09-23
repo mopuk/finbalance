@@ -1,70 +1,64 @@
-# Finbalance — Локальное развертывание проекта
+# FinBalance — Fintech Educational Web Service
 
-Инструкция по настройке окружения, созданию локальной базы данных PostgreSQL и запуску сервера разработки Django.
-
----
-
-## 1. Настройка переменных окружения
-
-В корневой директории проекта создайте файл `.env` и заполните его следующими параметрами:
-
-```env
-DEBUG=True
-SECRET_KEY=your_secret_key_here
-
-DB_NAME=finbalance
-DB_USER=finbalance_admin
-DB_PASSWORD=your_password
-DB_HOST=127.0.0.1
-DB_PORT=5432
-```
+FinBalance is a lightweight fintech web service. It provides personal financial modeling, wealth growth forecasting using compound interest and annuity models, and an educational knowledge base for financial literacy.
 
 ---
 
-## 2. Инициализация базы данных
+## Installation & Setup
 
-В терминале подключитесь к postgres, через
+### Prerequisites
 
-```
-psql -U postgres
-```
+- Python 3.11 or higher
+- PostgreSQL
+- Git
 
-Далее введите:
+### 1. Clone the repository
 
-```sql
-
-CREATE DATABASE finbalance;
-CREATE USER finbalance_admin WITH PASSWORD 'your_password';
-GRANT ALL PRIVILEGES ON DATABASE finbalance TO finbalance_admin;
-
-\c finbalance
-GRANT ALL ON SCHEMA public TO finbalance_admin;
-
-\q
+```bash
+git clone [https://github.com/your-username/finbalance.git](https://github.com/your-username/finbalance.git)
+cd finbalance
 ```
 
----
+### 2. Setup the environment
 
-## 3. Установка зависимостей и миграции
+```bash
+python -m venv venv
+# On Linux/macOS:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
-
-python manage.py migrate
-
-python manage.py createsuperuser
 ```
 
-`createsuperuser` - создает суперпользователя для админ панели Django
+### 4. Configure Databse & Environment
 
----
+```bash
+DEBUG=True
+SECRET_KEY=your-secret-key-here
+DATABASE_NAME=finbalance_db
+DATABASE_USER=postgres
+DATABASE_PASSWORD=your_password
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+```
 
-## 4. Запуск сервера разработки
+### 5. Apply migrations and collect static files
 
-Для запуска локального сервера выполните команду:
+```bash
+python manage.py makemigrations
+python manage.py migrate
+python manage.py collectstatic --noinput
+```
+
+### 6. Run the Development Server
 
 ```bash
 python manage.py runserver
 ```
 
-После этого проект будет доступен в браузере по адресу: [http://127.0.0](http://127.0.0)
+Open your browser and navigate to http://127.0.0.1:8000/
