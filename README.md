@@ -2,6 +2,7 @@
 
 FinBalance is a lightweight fintech web service. It provides personal financial modeling, wealth growth forecasting using compound interest and annuity models, and an educational knowledge base for financial literacy.
 
+Test it - [https://finbalance-fdvt.onrender.com](https://finbalance-fdvt.onrender.com)
 ### Stack: Django x PostgreSQL
 
 ---
