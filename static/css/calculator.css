@@ -126,7 +126,7 @@
   grid-template-columns: 1fr 1fr;
 }
 
-.prgoress-bar__legend--calculator {
+.progress-bar__legend--calculator {
   display: flex;
   justify-content: space-between;
   align-items: center;

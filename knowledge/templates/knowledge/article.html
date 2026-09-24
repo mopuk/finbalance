@@ -1,29 +1,91 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ article.title }} — База знаний FinBalance{% endblock title %}
+
 {% block content %}
 {% if article %}
-<div class="article">
+<article class="article-page">
+  <div class="article-page__container">
     <nav class="breadcrumbs">
-        <ol class="breadcrumbs__list">
-            <li class="breadcrumbs__item">
-                <a href="{% url 'home' %}" 
-                    class="breadcrumbs__link">
-                    Главная
-                </a>
-            </li>
-            <li  class="breadcrumbs__item">
-                <a href="{% url 'knowledge:index' %}"
-                    class="breadcrumbs__link">
-                    База знаний
-                </a>
-            </li>
-            <li class="breadcrumbs__item" aria-current="page">
-                Статья
-            </li>
-        </ol>
+      <ol class="breadcrumbs__list">
+        <li class="breadcrumbs__item">
+          <a href="{% url 'home' %}" class="breadcrumbs__link">Главная</a>
+        </li>
+        <li class="breadcrumbs__item">
+          <a href="{% url 'knowledge:index' %}" class="breadcrumbs__link">База знаний</a>
+        </li>
+        <li class="breadcrumbs__item" aria-current="page">
+          {{ article.title }}
+        </li>
+      </ol>
     </nav>
-    <h1>{{article.title}}<h1>
-    <h2>{{article.category.title}}</h2>
-</div>
-{% endif %}
 
+    <header class="article-header">
+      <div class="article-header__meta">
+        <span class="article-header__image">
+            <img src={% static 'images/no_image.svg' %} alt="Нет изображения" />
+            Нет изображения
+        </span>
+        <span class="article-header__badge">{{ article.category.title }}</span>
+        <span class="article-header__meta-item">
+          <time datetime="{{ article.created_at|date:'Y-m-d' }}">
+            {{ article.created_at|date:"d E Y" }}
+          </time>
+        </span>
+        <span class="article-header__meta-separator">•</span>
+        <span class="article-header__meta-item">
+          <img src="{% static 'images/clock.svg' %}" alt="" class="article-header__icon" />
+          4 мин. чтения
+        </span>
+      </div>
+
+      <h1 class="article-header__title">{{ article.title }}</h1>
+
+      {% if article.preview_text %}
+      <p class="article-header__lead">
+        {{ article.preview_text }}
+      </p>
+      {% endif %}
+    </header>
+
+    <div class="article-body">
+      <div class="article-body__content">
+        {{ article.content|linebreaks }}
+      </div>
+
+      <div class="article-callout">
+        <div class="article-callout__icon">💡</div>
+        <div class="article-callout__text">
+          <strong>Важное правило:</strong> Любые инвестиционные расчеты должны учитывать инфляционные риски и базироваться на предварительно сформированной финансовой подушке безопасности не менее 3–6 месяцев расходов.
+        </div>
+      </div>
+    </div>
+
+    <footer class="article-footer">
+      <div class="article-footer__actions">
+        <a href="{% url 'knowledge:index' %}" class="button--ghost">
+          <img src="{% static 'images/arrow_left.svg' %}" alt="" class="button__icon" />
+          Назад ко всем статьям
+        </a>
+      </div>
+
+      {% if related_articles %}
+      <section class="related-articles">
+        <h3 class="related-articles__heading">Читайте также по этой теме</h3>
+        <div class="related-articles__grid">
+          {% for rel in related_articles %}
+          <a href="{% url 'knowledge:detail' slug=rel.slug %}" class="related-card">
+            <span class="related-card__category">{{ rel.category.title }}</span>
+            <h4 class="related-card__title">{{ rel.title }}</h4>
+            <p class="related-card__preview">{{ rel.preview_text|truncatewords:15 }}</p>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </footer>
+  </div>
+</article>
+{% endif %}
 {% endblock content %}

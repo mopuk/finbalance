@@ -1,5 +1,10 @@
-{% extends "base.html" %} {% load static %} {% block title %} Главная -
-FinBalance {% endblock title %} {% block content %}
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Главная - FinBalance 
+{% endblock title %}
+{% block content %}
+<script src="{% static 'js/potential.js' %}"></script>
 <div class="home">
   <section class="hero">
     <div class="hero__heading">
@@ -25,7 +30,10 @@ FinBalance {% endblock title %} {% block content %}
               class="arrow"
             />
           </a>
-          <a href="{% url 'knowledge:index' %}" class="hero__button button--ghost">
+          <a
+            href="{% url 'knowledge:index' %}"
+            class="hero__button button--ghost"
+          >
             Читать статьи
             <img
               src="{% static 'images/book.svg' %}"
@@ -238,27 +246,41 @@ FinBalance {% endblock title %} {% block content %}
               <h4 class="quick-calculator__subtitle">Прогнозируемый капитал</h4>
             </div>
             <div class="quick-calculator__heading-right">
-              <span class="quick-calculator__horizon">Горизон: 10 лет</span>
+              <span class="quick-calculator__horizon">Горизонт: 10 лет</span>
             </div>
           </div>
 
-          <h1 class="quick-calculator__summ">12 450 000</h1>
+          <h1 class="quick-calculator__summ" data-potential-result="capital-10">
+            0 ₽
+          </h1>
 
           <div class="progress-bar">
             <div class="progress-bar__track">
               <div
                 class="progress-bar__segment progress-bar__segment--deposit"
+                data-potential-result="segment-deposit"
               ></div>
               <div
                 class="progress-bar__segment progress-bar__segment--income"
+                data-potential-result="segment-income"
               ></div>
             </div>
             <div class="progress-bar__legend">
               <div class="progress-bar__deposit">
-                Взносы: <span class="progress-bar__percentage">25%</span>
+                Взносы:
+                <span
+                  class="progress-bar__percentage"
+                  data-potential-result="ratio-deposit"
+                  >0%</span
+                >
               </div>
               <div class="progress-bar__income">
-                Доход: <span class="progress-bar__percentage">75%</span>
+                Доход:
+                <span
+                  class="progress-bar__percentage"
+                  data-potential-result="ratio-income"
+                  >0%</span
+                >
               </div>
             </div>
           </div>
@@ -266,18 +288,31 @@ FinBalance {% endblock title %} {% block content %}
           <div class="metrics">
             <div class="metrics__deposit">
               <h4 class="metrics__title">ВЛОЖЕННЫЕ СРЕДСТВА</h4>
-
-              <h4 class="metrics__money">3 050 000₽</h4>
-              <h4 class="metrics__description">
-                50 000 ₽ старт + 25 000 ₽/мес
+              <h4 class="metrics__money" data-potential-result="invested-10">
+                0 ₽
+              </h4>
+              <h4
+                class="metrics__description"
+                data-potential-result="invested-desc"
+              >
+                0 ₽/мес
               </h4>
             </div>
             <div class="metrics__income">
               <div class="metrics__income-header">
                 <h4 class="metrics__title">НАЧИСЛЕННЫЙ ДОХОД</h4>
-                <span class="metrics__percentage percentage--green">+308%</span>
+                <span
+                  class="metrics__percentage percentage--green"
+                  data-potential-result="gain-percent"
+                  >+0%</span
+                >
               </div>
-              <h4 class="metrics__money money--green">+9 400 000₽</h4>
+              <h4
+                class="metrics__money money--green"
+                data-potential-result="gain-money"
+              >
+                +0 ₽
+              </h4>
               <h4 class="metrics__description">Прирост сложным процентом</h4>
             </div>
           </div>
@@ -289,18 +324,21 @@ FinBalance {% endblock title %} {% block content %}
           </div>
         </div>
       </div>
+
       <div class="potential__right">
-        <form action="" class="potential__form">
+        <form action="" class="potential__form" onsubmit="return false;">
           <label for="potential_income" class="potential__label">
             Ежемесячный доход (₽)
-
             <span class="potential__input">
               <input
                 type="text"
+                inputmode="numeric"
                 name="potential_income"
                 id="potential_income"
                 class="potential__income"
                 placeholder="120000"
+                value="120000"
+                data-potential-input="income"
               />
               <span class="potential__currency">RUB</span>
             </span>
@@ -311,20 +349,29 @@ FinBalance {% endblock title %} {% block content %}
             <span class="potential__input">
               <input
                 type="text"
+                inputmode="numeric"
                 name="potential_spendings"
                 id="potential_spendings"
                 class="potential__spendings"
                 placeholder="75000"
+                value="75000"
+                data-potential-input="spendings"
               />
               <span class="potential__currency">RUB</span>
             </span>
           </label>
         </form>
+
         <div class="potential__results">
           <div class="potential__result">
             <h4 class="potential__label">Свободный остаток в месяц</h4>
-            <h2 class="potential__value">45000 ₽ 
-              <span class="potential__percentage">37.5% дохода</span>
+            <h2 class="potential__value">
+              <span data-potential-result="surplus-monthly">0 ₽</span>
+              <span
+                class="potential__percentage"
+                data-potential-result="surplus-rate"
+                >0% дохода</span
+              >
             </h2>
           </div>
 
@@ -332,9 +379,15 @@ FinBalance {% endblock title %} {% block content %}
             <h4 class="potential__label">
               Капитал через 5 лет (при 12% годовых)
             </h4>
-            <h2 class="potential__value value--primary">3 675 135 ₽</h2>
+            <h2
+              class="potential__value value--primary"
+              data-potential-result="capital-5"
+            >
+              0 ₽
+            </h2>
           </div>
         </div>
+
         <div class="potential__note">
           <p>* С учетом ежемесячной реинвестиции полного остатка</p>
           <p>Формула: FV с аннуитетом</p>
@@ -347,8 +400,7 @@ FinBalance {% endblock title %} {% block content %}
     <div class="articles__heading">
       <div class="articles__heading-left">
         <h4 class="articles__subtitle">
-          БАЗА ЗНАНИЙ <span class="separator"></span> Методические
-          материалы
+          БАЗА ЗНАНИЙ <span class="separator"></span> Методические материалы
         </h4>
         <h2 class="articles__title">Свежие публикации экспертов</h2>
       </div>
@@ -371,7 +423,9 @@ FinBalance {% endblock title %} {% block content %}
           Нет изображения
         </div>
         <div class="article__meta">
-          <h3 class="article__category">[ {{ article.category.title|upper }} ]</h3>
+          <h3 class="article__category">
+            [ {{ article.category.title|upper }} ]
+          </h3>
           <span class="article__readtime"
             >{{ article.readtime|default:"1" }} мин. чтения</span
           >

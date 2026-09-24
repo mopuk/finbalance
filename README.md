@@ -15,7 +15,7 @@ FinBalance is a lightweight fintech web service. It provides personal financial 
 ### 1. Clone the repository
 
 ```bash
-git clone [https://github.com/your-username/finbalance.git](https://github.com/your-username/finbalance.git)
+git clone
 cd finbalance
 ```
 
@@ -52,6 +52,7 @@ DATABASE_PORT=5432
 ```bash
 python manage.py makemigrations
 python manage.py migrate
+python manage.py shell < seed.py
 python manage.py collectstatic --noinput
 ```
 
