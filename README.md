@@ -1,6 +1,8 @@
-# FinBalance — Fintech Educational Web Service
+# FinBalance
 
 FinBalance is a lightweight fintech web service. It provides personal financial modeling, wealth growth forecasting using compound interest and annuity models, and an educational knowledge base for financial literacy.
+
+# Stack: Django x PostgreSQL
 
 ---
 
