@@ -41,8 +41,9 @@ def calculate_compound_interest(
 
     for year in range(1, years + 1):
         for _ in range(times_compounded):
-            current_balance = (current_balance + contributions_per_period) * (
-                Decimal("1.0") + period_rate
+            current_balance = (
+                current_balance * (Decimal("1.0") + period_rate)
+                + contributions_per_period
             )
             total_contributions += contributions_per_period
 
